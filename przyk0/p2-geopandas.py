@@ -63,9 +63,47 @@ cursor = connection.cursor()
 cursor.execute(q)
 
 
-q = """select id, state from us_states""";
 
-for row in cursor.execute(q):
-    print(row)
+
+# cursor = connection.cursor()
+# for row in cursor.execute("select state from us_states"):
+#     print(row)
+#
+# cursor = connection.cursor()
+# for row in cursor.execute("select * from us_states"):
+#     print(row)
+
+cursor = connection.cursor()
+
+def OutputTypeHandler(cursor, name, defaultType, size, precision, scale):
+    if defaultType == oracledb.CLOB:
+        return cursor.var(oracledb.LONG_STRING, arraysize = cursor.arraysize)
+
+connection.outputtypehandler = OutputTypeHandler
+
+
+r = cursor.execute("""
+        SELECT geom
+        FROM us_states""").fetchone()
+
+print(r)
+
+r = cursor.execute("""
+        SELECT sdo_util.to_wktgeometry(geom)
+        FROM us_states""").fetchone()
+
+print(r)
+
+cursor.execute("""
+        SELECT state, sdo_util.to_wktgeometry(geom) g
+        FROM us_states""")
+
+gdf = gpd.GeoDataFrame(cursor.fetchall(), columns=['state', 'g'])
+del gdf['g']
+
+
+print()
+print(gdf)
+
 
 
