@@ -46,9 +46,9 @@ cs = "192.168.164.136:1521/orcl"
 # połączenie wykorzystujące sid
 # dbmanage.lab.ii.agh.edu.pl
 # ---------------------------------------
-# un = "student"
-# pw = "stu638dent"
-# cs = oracledb.makedsn("dbmanage.lab.ii.agh.edu.pl", 1521, sid="DBMANAGE")
+un = "student"
+pw = "stu638dent"
+cs = oracledb.makedsn("dbmanage.lab.ii.agh.edu.pl", 1521, sid="DBMANAGE")
 
 
 
