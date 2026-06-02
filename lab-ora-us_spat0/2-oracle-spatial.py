@@ -4,6 +4,13 @@ import geojson
 
 from shapely.wkt import dumps, loads
 
+import http.server
+import socketserver
+import threading
+import webbrowser
+
+OTWORZY = otworzy
+
 cs = oracledb.makedsn("dbmanage.lab.ii.agh.edu.pl", 1521, sid="DBMANAGE")
 
 un = "student"
@@ -35,7 +42,13 @@ for row in cursor.execute(q):
     print(row)
 
 
-m = folium.Map()
+
+m = folium.Map(
+    location=[39, -98],
+    zoom_start=4,
+    tiles="OpenStreetMap"
+)
+
 
 q = """SELECT  sdo_util.to_wktgeometry(geom)
        FROM us_states 
@@ -56,4 +69,11 @@ feature_collection = geojson.FeatureCollection(l)
 
 folium.GeoJson(feature_collection, style_function=lambda x:st).add_to(m)
 
-m.show_in_browser()
+# m.show_in_browser()
+m.save("mapa.html")
+
+# zeby zobaczyc mapke w przegladarce nalezy uruchomic lokalny serwer www
+# w terminalu
+#     python -m http.server 8000
+# następnie w przegladarce
+#    http://localhost:8000/
