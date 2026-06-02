@@ -4,12 +4,7 @@ import geojson
 
 from shapely.wkt import dumps, loads
 
-import http.server
-import socketserver
-import threading
-import webbrowser
 
-OTWORZY = otworzy
 
 cs = oracledb.makedsn("dbmanage.lab.ii.agh.edu.pl", 1521, sid="DBMANAGE")
 
